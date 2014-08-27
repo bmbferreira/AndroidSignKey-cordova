@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin 
+    xmlns="http://www.phonegap.com/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    id="com.phonegap.plugins.androidsignkey" 
+    version="0.0.3">
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>  
+
+    <name>Android Sign Key</name>
+
+    <js-module src="www/androidsignkey.js" name="AndroidSignKey">
+        <clobbers target="window.plugins.androidsignkey" />
+    </js-module>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AndroidSignKey">
+                <param name="android-package" value="com.phonegap.plugins.androidsignkey.AndroidSignKey"/>            
+            </feature>
+        
+        </config-file>
+        <source-file src="src/android/AndroidSignKey.java" target-dir="src/com/phonegap/plugins/androidsignkey" />
+    </platform>
+</plugin>
