@@ -8,8 +8,6 @@
 
 package com.phonegap.plugins.androidsignkey;
 
-import java.io.IOException;
-import java.net.URLConnection;
 
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
@@ -18,6 +16,7 @@ import org.json.JSONException;
 import android.content.pm.Signature;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.Context;
 
 import org.apache.cordova.CordovaPlugin;
 
@@ -25,17 +24,18 @@ public class AndroidSignKey extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-		try {
-			 if (action.equals("getSignatureHashCode")) {
-				Signature [] sigs = this.cordova.getActivity().getApplicationContext().getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
-				for (int i = 0; i < sigs.length; i++) {
-				   callbackContext.success(sigs[0].hashCode());
-				   return true;
-				}
+	try {
+		if (action.equals("getSignatureHashCode")) {
+			Context ctx = this.cordova.getActivity().getApplicationContext();
+			Signature [] sigs = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
+			for (int i = 0; i < sigs.length; i++) {
+			   callbackContext.success(sigs[0].hashCode());
+			   return true;
 			}
+		}
         } catch (NameNotFoundException e) {
             e.printStackTrace();
-			callbackContext.error(e.getMessage());
+	    callbackContext.error(e.getMessage());
         } 
         return false;
     }
